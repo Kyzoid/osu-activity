@@ -25,12 +25,18 @@
     },
     "types": [
       "@nuxt/types",
-      "@types/node"
+      "@types/node",
+      "@nuxtjs/axios",
+      "@nuxtjs/firebase"
     ]
   },
   "exclude": [
     "node_modules",
     ".nuxt",
     "dist"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.vue",
   ]
 }
