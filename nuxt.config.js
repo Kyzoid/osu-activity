@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-console.log(process.env);
-
 export default {
+  server: {
+    port: 4000
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'activity',
@@ -23,6 +24,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/static/styles.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

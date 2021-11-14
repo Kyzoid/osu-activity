@@ -1,11 +1,13 @@
 import { DocumentData, QueryDocumentSnapshot, SnapshotOptions, DocumentReference } from 'firebase/firestore';
-import { User, Score } from '../../types';
+import { User } from '../../types';
 
 export default {
   toFirestore(user: User): DocumentData {
     return {
       id: user.id,
       username: user.username,
+      pp: user.pp,
+      globalRank: user.globalRank,
       scores: user.scores
     };
   },

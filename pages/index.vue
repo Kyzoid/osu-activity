@@ -1,21 +1,52 @@
 <template>
-  <div class="container mx-auto w-3/5 mt-10">
-    <div class="users" v-if="!loading">
-      <div v-for="user in users" :key="user.id" class="user">
-        <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
-        {{ user.scores }}
+  <div class="min-h-full relative">
+    <Header />
+    <div class="container mx-auto w-3/5 pb-14">
+      <div class="rankings">
+        <div class="flex items-center">
+          <img src="/icons/rankings.svg" width="30" />
+          <span class="ml-4">rankings</span>
+        </div>
+      </div>
+      <div class="users">
+        <table class="w-full text-sm">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Accuracy</th>
+              <th>Play Count</th>
+              <th class="text-white">Performance</th>
+            </tr>
+          </thead>
+          <tbody v-if="!loading">
+            <tr v-for="(user, index) in users" :key="user.id">
+              <td class="text-center rounded-l text-white">#{{ index + 1 }}</td>
+              <td class="username flex items-center justify-start">
+                <img src="/icons/flag_fr.svg" width="26.66" class="mr-2" />
+                <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
+              </td>
+              <td class="text-center">{{ (user.accuracy*100).toFixed(2) }}%</td>
+              <td class="text-center">{{ user.playCount }}</td>
+              <td class="text-center rounded-r text-white">{{ user.pp }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
+import Header from '../components/Header.vue';
 import { User } from '../types';
 import { userConverter } from '../firestore/converters';
 
 export default Vue.extend({
+  components: { Header },
   data() {
     return {
       users: [] as User[],
@@ -45,14 +76,44 @@ export default Vue.extend({
 </script>
 
 <style lang="postcss">
-html, body {
-  @apply h-full text-white;
-  background-color: #1C1719;
+.rankings {
+  @apply px-10 py-3;
+  background-color: hsl(var(--hsl-d4));
 }
 
 .users {
-  @apply px-6 py-3;
-  background-color: #2A2226;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 25%);
+  @apply px-10 py-5;
+  background-color: hsl(var(--hsl-b5));
+}
+
+.users > table {
+  border-spacing: 0px 3px;
+  color: hsl(var(--hsl-f1));
+}
+
+.users > table > thead > tr > th {
+  @apply font-normal;
+}
+
+.users > table > tbody > tr {
+  @apply px-3 rounded-sm;
+  background-color: hsl(var(--hsl-b4));
+}
+
+.users > table > tbody > tr:hover {
+  background-color: hsl(var(--hsl-b3));
+}
+
+tr > td.username > a {
+  color: hsl(var(--hsl-l2));
+}
+
+tr > td.username > a:hover {
+  @apply underline;
+  color: hsl(var(--hsl-l1));
+}
+
+.users > table > tbody > tr > td {
+  @apply py-0.5;
 }
 </style>
