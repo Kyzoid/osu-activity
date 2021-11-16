@@ -63,7 +63,14 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/dayjs',
   ],
+
+  dayjs: {
+    locales: ['en'],
+    defaultLocale: 'en',
+    plugins: ['relativeTime', 'utc']
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

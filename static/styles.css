@@ -56,3 +56,14 @@ html, body {
 #__nuxt, #__layout {
   height: 100%;
 }
+
+.body a {
+  color: hsl(var(--hsl-l2));
+  transition: color 80ms linear;
+}
+
+.body a:hover {
+  color: hsl(var(--hsl-l1));
+  transition: color 80ms linear;
+  text-decoration: underline;
+}

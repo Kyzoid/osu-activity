@@ -6,7 +6,8 @@
         <div class="logo logo-white"></div>
       </NuxtLink>
       <div class="text-sm ml-4">
-        <NuxtLink to="/" class="hover:underline">home</NuxtLink>
+        <NuxtLink to="/" class="p-2 hover:underline">home</NuxtLink>
+        <NuxtLink to="/ranking" class="p-2 hover:underline">ranking</NuxtLink>
       </div>
     </div>
   </header>
