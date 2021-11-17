@@ -27,12 +27,22 @@
                   <img src="/icons/flag_fr.svg" width="26.66" class="mr-2" />
                   <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
                 </td>
-                <td class="text-center">{{ (user.accuracy*100).toFixed(2) }}%</td>
-                <td class="text-center">{{ user.playCount }}</td>
-                <td class="text-center rounded-r text-white">{{ user.pp }}</td>
+                <td class="text-center">
+                  {{ (user.accuracy*100).toFixed(2) }}%
+                  <span class="stat-down">(-0.03%)</span>
+                </td>
+                <td class="text-center">
+                  {{ user.playCount }}
+                  <span class="stat-up">(+121)</span>
+                </td>
+                <td class="text-center rounded-r text-white">
+                  {{ user.pp }}
+                  <span class="stat-up">(+14.22)</span>
+                </td>
               </tr>
             </tbody>
           </table>
+          <small class="text-xs">Note: numbers in parenthesis indicate the gain/loss in one month</small>
         </div>
       </div>
     </div>
@@ -60,7 +70,7 @@ export default Vue.extend({
   methods: {
     async getUsers(): Promise<User[]> {
       const users: User[] = [];
-      const usersSnap = await this.$fire.firestore.collection('users').withConverter(userConverter).get();
+      const usersSnap = await this.$fire.firestore.collection('users').withConverter(userConverter).orderBy('pp', 'desc').get();
 
       if (!usersSnap.empty) {
         usersSnap.forEach((doc: QueryDocumentSnapshot) => {
@@ -75,7 +85,19 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
+small {
+  color: hsl(var(--hsl-f1));
+}
+
+.stat-up {
+  @apply text-green-400;
+}
+
+.stat-down {
+  @apply text-red-400;
+}
+
 .rankings {
   @apply px-10 py-3;
   background-color: hsl(var(--hsl-d4));
@@ -88,6 +110,7 @@ export default Vue.extend({
 }
 
 .users > table {
+  border-collapse: separate;
   border-spacing: 0px 3px;
   color: hsl(var(--hsl-f1));
 }
