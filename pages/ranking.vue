@@ -21,14 +21,14 @@
               </tr>
             </thead>
             <tbody v-if="!loading">
-              <tr v-for="(user, index) in users" :key="user.id">
+              <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
                 <td class="text-center rounded-l text-white">#{{ index + 1 }}</td>
                 <td class="username flex items-center justify-start">
                   <img src="/icons/flag_fr.svg" width="26.66" class="mr-2" />
                   <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
                 </td>
                 <td class="text-center">
-                  {{ (user.accuracy*100).toFixed(2) }}%
+                  {{ user.accuracy.toFixed(2) }}%
                   <span class="stat-down">(-0.03%)</span>
                 </td>
                 <td class="text-center">

@@ -7,4 +7,6 @@ export default interface User {
   globalRank: number;
   pp: number;
   scores: Score[];
+  isRanked: boolean;
+  isActive: boolean;
 }
