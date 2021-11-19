@@ -1,7 +1,9 @@
 <template>
   <div class="min-h-full relative">
     <Header />
-    <div class="body container mx-auto w-full px-2 md:px-0 lg:w-4/5 xl:w-3/5 pb-14">
+    <div
+      class="body container mx-auto w-full px-2 md:px-0 lg:w-4/5 xl:w-3/5 pb-14"
+    >
       <div class="shadow">
         <div class="title">
           <div class="flex items-center">
@@ -9,7 +11,7 @@
             <span class="ml-4">home</span>
           </div>
         </div>
-        <div class="events">
+        <div class="events" v-if="!loading">
           <div v-for="(event, index) in computedEventsHistory" :key="index">
             <div v-if="event.type === 'gain_rank'" class="event">
               <p>
@@ -18,9 +20,12 @@
                   :href="`https://osu.ppy.sh/users/${event.userId}`"
                   >{{ event.username }}</a
                 >
-               gained
-               <span class="text-green-400">{{ event.rankDifference }}</span>
-               country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{event.lastRank}} → #{{ event.newRank }})
+                gained
+                <span class="text-green-400">{{ event.rankDifference }}</span>
+                country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{
+                  event.lastRank
+                }}
+                → #{{ event.newRank }})
               </p>
               <span class="play-timestamp">{{
                 $dayjs(event.createdAt).fromNow()
@@ -36,7 +41,10 @@
                 >
                 lost
                 <span class="text-red-400">{{ event.rankDifference }}</span>
-                country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{event.lastRank}} → #{{ event.newRank }})
+                country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{
+                  event.lastRank
+                }}
+                → #{{ event.newRank }})
               </p>
               <span class="play-timestamp">{{
                 $dayjs(event.createdAt).fromNow()
@@ -44,43 +52,43 @@
             </div>
 
             <div
-              v-if="event.type === 'pp_new' || event.type === 'pp_improve'"
-              class="event"
+              v-if="event.type === 'PP_NEW'"
+              class="flex flex-col text-sm"
             >
-              <div class="flex items-center">
-                <p>
-                  <a :href="`https://osu.ppy.sh/users/${event.userId}`">{{
-                    event.username
-                  }}</a>
-                  achieved a
-                  <span class="pp-value">{{ event.pp }}</span
-                  ><span class="pp">pp</span>
-                  with
-                  <span class="accuracy"
-                    >{{ (event.accuracy * 100).toFixed(2) }}%</span
-                  >
-                  on
-                  <a
-                    :href="`https://osu.ppy.sh/beatmapsets/${event.beatmapsetId}#mania/${event.beatmapId}`"
-                    >{{ event.beatmapTitle }} [{{ event.beatmapDifficulty }}]</a
-                  >
-                </p>
-                <div
-                  :class="`grid grid-cols-${
-                    event.mods.length ? event.mods.length : '1'
-                  } gap-1 ml-2`"
-                >
-                  <img
-                    v-for="name in event.mods"
-                    :key="name"
-                    :src="`/icons/mods/${name}.png`"
-                    width="30.94"
-                  />
-                </div>
+              <div class="flex items-center mb-1">
+                <a class="flex items-center mr-1.5" :href="`https://osu.ppy.sh/users/${event.userId}`">
+                  <img :src="event.avatarURL" class="mr-1 w-6 h-6 rounded-full" />
+                  <span>{{ event.username }}</span>
+                </a>
+                <span>achieved:</span>
               </div>
-              <span class="play-timestamp">{{
-                $dayjs(event.createdAt).fromNow()
-              }}</span>
+              <PlayDetail :play="event" />
+              <!-- <p>
+                 a
+                <span class="pp-value">{{ event.pp }}</span
+                ><span class="pp">pp</span>
+                with
+                <span class="accuracy"
+                  >{{ (event.accuracy * 100).toFixed(2) }}%</span
+                >
+                on
+                <a
+                  :href="`https://osu.ppy.sh/beatmapsets/${event.beatmapsetId}#mania/${event.beatmapId}`"
+                  >{{ event.beatmapTitle }} [{{ event.beatmapDifficulty }}]</a
+                >
+              </p>
+              <div
+                :class="`grid grid-cols-${
+                  event.mods.length ? event.mods.length : '1'
+                } gap-1 ml-2`"
+              >
+                <img
+                  v-for="name in event.mods"
+                  :key="name"
+                  :src="`/icons/mods/${name}.png`"
+                  width="30.94"
+                />
+              </div> -->
             </div>
           </div>
         </div>
@@ -91,16 +99,18 @@
 </template>
 
 <script lang="ts">
-import { QueryDocumentSnapshot } from '@firebase/firestore'
-import Vue from 'vue'
-import { EventHistory } from '~/types'
+import { QueryDocumentSnapshot } from '@firebase/firestore';
+import Vue from 'vue';
+import PlayDetail from '../components/PlayDetail.vue';
+import { EventHistory } from '~/types';
 
 export default Vue.extend({
+  components: { PlayDetail },
   data() {
     return {
       loading: true,
       eventsHistory: [] as EventHistory[],
-    }
+    };
   },
   computed: {
     computedEventsHistory(): EventHistory[] {
@@ -119,49 +129,45 @@ export default Vue.extend({
 
         return {
           ...event,
-          rankDifference
+          rankDifference,
         };
-      })
+      });
     },
   },
   async created() {
-    this.eventsHistory = await this.getEventsHistory()
-    this.loading = false
+    this.eventsHistory = await this.getEventsHistory();
+    this.loading = false;
   },
   methods: {
     async getEventsHistory(): Promise<EventHistory[]> {
-      const events: EventHistory[] = []
+      const events: EventHistory[] = [];
       const eventsSnap = await this.$fire.firestore
         .collection('events')
         .orderBy('createdAt', 'desc')
         .limit(10)
-        .get()
+        .get();
 
       if (!eventsSnap.empty) {
         eventsSnap.forEach((doc: QueryDocumentSnapshot) => {
-          const event = doc.data() as EventHistory
-          events.push(event)
-        })
+          const event = doc.data() as EventHistory;
+          events.push(event);
+        });
       }
 
-      return events
+      return events;
     },
   },
-})
+});
 </script>
 
 <style lang="postcss">
 .event {
   @apply flex items-center justify-between px-4 py-1.5 text-sm rounded-lg;
-  background-color: hsl(var(--hsl-b4));
+  background-color: hsl(var(--hsl-b3));
 }
 
-.accuracy {
-  color: #fc2;
-}
-
-.difficulty {
-  color: #ea0;
+.event:hover {
+  background-color: hsl(var(--hsl-b2));
 }
 
 .play-timestamp {
@@ -177,7 +183,7 @@ export default Vue.extend({
 }
 
 .events {
-  @apply px-10 py-5 bg-no-repeat bg-contain bg-bottom grid grid-cols-1 gap-0.5;
+  @apply px-10 py-5 bg-no-repeat bg-contain bg-bottom grid grid-cols-1 gap-2;
   background-color: hsl(var(--hsl-b5));
   background-image: url(/icons/page-extra-footer.png);
 }

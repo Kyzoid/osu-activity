@@ -13,5 +13,7 @@ export default interface EventHistory {
   beatmapId?: number;
   beatmapTitle?: string;
   beatmapsetId?: number;
+  artist?: string;
   pp?: number;
+  rank?: string;
 }

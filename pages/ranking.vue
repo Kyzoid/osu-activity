@@ -6,7 +6,7 @@
         <div class="rankings">
           <div class="flex items-center">
             <img src="/icons/rankings.svg" width="30" />
-            <span class="ml-4">rankings</span>
+            <span class="ml-4">ranking</span>
           </div>
         </div>
         <div class="users">
