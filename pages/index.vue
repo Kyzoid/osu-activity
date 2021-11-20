@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-full relative">
+    <!-- <Loader class="opacity-20 absolute left-0 bottom-6" /> -->
     <Header />
     <div
       class="body container mx-auto w-full px-2 md:px-0 lg:w-4/5 xl:w-3/5 pb-14"
@@ -11,84 +12,60 @@
             <span class="ml-4">home</span>
           </div>
         </div>
-        <div class="events" v-if="!loading">
-          <div v-for="(event, index) in computedEventsHistory" :key="index">
-            <div v-if="event.type === 'gain_rank'" class="event">
-              <p>
-                <a
-                  class="link"
-                  :href="`https://osu.ppy.sh/users/${event.userId}`"
-                  >{{ event.username }}</a
-                >
-                gained
-                <span class="text-green-400">{{ event.rankDifference }}</span>
-                country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{
-                  event.lastRank
-                }}
-                → #{{ event.newRank }})
-              </p>
-              <span class="play-timestamp">{{
-                $dayjs(event.createdAt).fromNow()
-              }}</span>
-            </div>
-
-            <div v-if="event.type === 'lose_rank'" class="event">
-              <p>
-                <a
-                  class="link"
-                  :href="`https://osu.ppy.sh/users/${event.userId}`"
-                  >{{ event.username }}</a
-                >
-                lost
-                <span class="text-red-400">{{ event.rankDifference }}</span>
-                country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{
-                  event.lastRank
-                }}
-                → #{{ event.newRank }})
-              </p>
-              <span class="play-timestamp">{{
-                $dayjs(event.createdAt).fromNow()
-              }}</span>
-            </div>
-
-            <div
-              v-if="event.type === 'PP_NEW'"
-              class="flex flex-col text-sm"
-            >
-              <div class="flex items-center mb-1">
-                <a class="flex items-center mr-1.5" :href="`https://osu.ppy.sh/users/${event.userId}`">
-                  <img :src="event.avatarURL" class="mr-1 w-6 h-6 rounded-full" />
-                  <span>{{ event.username }}</span>
-                </a>
-                <span>achieved:</span>
+        <div class="events">
+          <div class="w-full grid grid-cols-1 gap-3">
+            <div v-for="(event, index) in computedEventsHistory" :key="index">
+              <div v-if="event.type === 'gain_rank'" class="event">
+                <p>
+                  <a
+                    class="link"
+                    :href="`https://osu.ppy.sh/users/${event.userId}`"
+                    >{{ event.username }}</a
+                  >
+                  gained
+                  <span class="text-green-400">{{ event.rankDifference }}</span>
+                  country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{
+                    event.lastRank
+                  }}
+                  → #{{ event.newRank }})
+                </p>
+                <span class="play-timestamp">{{
+                  $dayjs(event.createdAt).fromNow()
+                }}</span>
               </div>
-              <PlayDetail :play="event" />
-              <!-- <p>
-                 a
-                <span class="pp-value">{{ event.pp }}</span
-                ><span class="pp">pp</span>
-                with
-                <span class="accuracy"
-                  >{{ (event.accuracy * 100).toFixed(2) }}%</span
-                >
-                on
-                <a
-                  :href="`https://osu.ppy.sh/beatmapsets/${event.beatmapsetId}#mania/${event.beatmapId}`"
-                  >{{ event.beatmapTitle }} [{{ event.beatmapDifficulty }}]</a
-                >
-              </p>
+
+              <div v-if="event.type === 'lose_rank'" class="event">
+                <p>
+                  <a
+                    class="link"
+                    :href="`https://osu.ppy.sh/users/${event.userId}`"
+                    >{{ event.username }}</a
+                  >
+                  lost
+                  <span class="text-red-400">{{ event.rankDifference }}</span>
+                  country {{ event.rankDifference > 1 ? 'ranks' : 'rank' }} (#{{
+                    event.lastRank
+                  }}
+                  → #{{ event.newRank }})
+                </p>
+                <span class="play-timestamp">{{
+                  $dayjs(event.createdAt).fromNow()
+                }}</span>
+              </div>
+
               <div
-                :class="`grid grid-cols-${
-                  event.mods.length ? event.mods.length : '1'
-                } gap-1 ml-2`"
+                v-if="event.type === 'PP_NEW'"
+                class="flex flex-col text-sm"
               >
-                <img
-                  v-for="name in event.mods"
-                  :key="name"
-                  :src="`/icons/mods/${name}.png`"
-                  width="30.94"
-                />
-              </div> -->
+                <div class="flex items-center mb-1">
+                  <a class="flex items-center mr-1.5" :href="`https://osu.ppy.sh/users/${event.userId}`">
+                    <img :src="event.avatarURL" class="mr-1 w-5 h-5 rounded-full" />
+                    <span>{{ event.username }}</span>
+                  </a>
+                  <span>achieved:</span>
+                </div>
+                <PlayDetail :play="event" />
+              </div>
             </div>
           </div>
         </div>
@@ -144,7 +121,7 @@ export default Vue.extend({
       const eventsSnap = await this.$fire.firestore
         .collection('events')
         .orderBy('createdAt', 'desc')
-        .limit(10)
+        .limit(50)
         .get();
 
       if (!eventsSnap.empty) {
@@ -183,7 +160,8 @@ export default Vue.extend({
 }
 
 .events {
-  @apply px-10 py-5 bg-no-repeat bg-contain bg-bottom grid grid-cols-1 gap-2;
+  @apply flex items-end px-10 py-5 bg-no-repeat bg-contain bg-bottom;
+  min-height: 10rem;
   background-color: hsl(var(--hsl-b5));
   background-image: url(/icons/page-extra-footer.png);
 }

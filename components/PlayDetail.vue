@@ -1,6 +1,6 @@
 <template>
   <div class="play-detail">
-    <div class="flex items-center pl-4 py-1.5">
+    <div class="flex items-center pl-5 py-1">
       <img :src="`/icons/grades/${play.rank}.svg`" width="40" />
       <div class="ml-2 flex flex-col">
         <a
@@ -96,7 +96,7 @@ export default Vue.extend({
   width: 10px;
   height: 100%;
   position: absolute;
-  left: 0;
+  left: -1px;
   top: 0;
   background-color: hsl(var(--hsl-b3));
   -webkit-clip-path: polygon(0 0,100% 50%,0 100%);

@@ -29,20 +29,20 @@
                 </td>
                 <td class="text-center">
                   {{ user.accuracy.toFixed(2) }}%
-                  <span class="stat-down">(-0.03%)</span>
+                  <!-- <span class="stat-down">(-0.03%)</span> -->
                 </td>
                 <td class="text-center">
                   {{ user.playCount }}
-                  <span class="stat-up">(+121)</span>
+                  <!-- <span class="stat-up">(+121)</span> -->
                 </td>
                 <td class="text-center rounded-r text-white">
                   {{ user.pp }}
-                  <span class="stat-up">(+14.22)</span>
+                  <!-- <span class="stat-up">(+14.22)</span> -->
                 </td>
               </tr>
             </tbody>
           </table>
-          <small class="text-xs">Note: numbers in parenthesis indicate the gain/loss in one month</small>
+          <!-- <small class="text-xs">Note: numbers in parenthesis indicate the gain/loss in one month</small> -->
         </div>
       </div>
     </div>
@@ -54,7 +54,6 @@
 import Vue from 'vue';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
 import { User } from '../types';
-import { userConverter } from '../firestore/converters';
 
 export default Vue.extend({
   data() {
@@ -70,7 +69,7 @@ export default Vue.extend({
   methods: {
     async getUsers(): Promise<User[]> {
       const users: User[] = [];
-      const usersSnap = await this.$fire.firestore.collection('users').withConverter(userConverter).orderBy('pp', 'desc').get();
+      const usersSnap = await this.$fire.firestore.collection('users').orderBy('pp', 'desc').limit(50).get();
 
       if (!usersSnap.empty) {
         usersSnap.forEach((doc: QueryDocumentSnapshot) => {

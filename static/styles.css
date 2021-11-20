@@ -57,12 +57,12 @@ html, body {
   height: 100%;
 }
 
-.body a {
+.body a, footer a {
   color: hsl(var(--hsl-l2));
   transition: color 80ms linear;
 }
 
-.body a:hover {
+.body a:hover, footer a:hover {
   color: hsl(var(--hsl-l1));
   transition: color 80ms linear;
   text-decoration: underline;
