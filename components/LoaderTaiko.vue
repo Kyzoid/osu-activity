@@ -1,0 +1,38 @@
+<template>
+  <div class="flex items-center justify-center">
+    <img src="/icons/don.png" width="75" />
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+export default Vue.extend({});
+</script>
+
+<style lang="postcss" scoped>
+img {
+  animation: bounce 1s infinite linear;
+}
+
+@keyframes bounce {
+  0% {
+    animation-timing-function: cubic-bezier(0.138, 0.2541, 0.2177, 0.8747);
+    transform: translate(0, 0) scaleY(1);
+  }
+  37% {
+    animation-timing-function: cubic-bezier(0.7679, 0.1817, 0.8401, 0.7167);
+    transform: translate(0, -39.96%) scaleY(1);
+  }
+  72.2% {
+    animation-timing-function: cubic-bezier(0.1045, 0.2026, 0.2224, 0.9608);
+    transform: translate(0, 0) scaleY(1);
+  }
+  87.2% {
+    animation-timing-function: cubic-bezier(0.7463, 0.2314, 0.8159, 0.6941);
+    transform: translate(0, 19.85%) scaleY(0.603);
+  }
+  100% {
+    transform: translate(0, 0) scaleY(1);
+  }
+}
+</style>

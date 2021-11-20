@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-full relative">
-    <!-- <Loader class="opacity-20 absolute left-0 bottom-6" /> -->
     <Header />
     <div
       class="body container mx-auto w-full px-2 md:px-0 lg:w-4/5 xl:w-3/5 pb-14"
@@ -12,7 +11,15 @@
             <span class="ml-4">home</span>
           </div>
         </div>
-        <div class="events">
+        <div class="events relative">
+          <div v-if="newScoresCount"
+            :class="[loadingNewScores ? '' : 'cursor-pointer']"
+            class="absolute flex items-center justify-center top-1 left-1/2 transform -translate-x-1/2 rounded-full w-28 h-6 bg-blue-400 shadow"
+            @click="refreshEventsHistory"
+          >
+            <Loader v-if="loadingNewScores" color="white" />
+            <span v-else class="text-sm text-white">{{ newScoresCount }} new scores</span>
+          </div>
           <div class="w-full grid grid-cols-1 gap-3">
             <div v-for="(event, index) in computedEventsHistory" :key="index">
               <div v-if="event.type === 'gain_rank'" class="event">
@@ -79,14 +86,17 @@
 import { QueryDocumentSnapshot } from '@firebase/firestore';
 import Vue from 'vue';
 import PlayDetail from '../components/PlayDetail.vue';
-import { EventHistory } from '~/types';
+import { EventHistory, Job } from '~/types';
 
 export default Vue.extend({
   components: { PlayDetail },
   data() {
     return {
       loading: true,
+      newScoresCount: 0,
+      loadingNewScores: false,
       eventsHistory: [] as EventHistory[],
+      jobs: [] as Job[]
     };
   },
   computed: {
@@ -114,8 +124,29 @@ export default Vue.extend({
   async created() {
     this.eventsHistory = await this.getEventsHistory();
     this.loading = false;
+    
+    const jobsRef = this.$fire.database.ref('jobs');
+
+    const snapshot = await jobsRef.get();
+    const rawJobs = snapshot.val() as { [key: string]: Job };
+    this.jobs = Object.values(rawJobs);
+
+    jobsRef.on('child_added', (snapshot: any) => {
+      const job = snapshot.val() as Job;
+      const jobFound = this.jobs.findIndex((j) => j.createdAt === job.createdAt);
+      if (jobFound === -1) {
+        this.jobs.push(job);
+        this.newScoresCount += job.count;
+      }
+    });
   },
   methods: {
+    async refreshEventsHistory() {
+      this.loadingNewScores = true;
+      this.eventsHistory = await this.getEventsHistory();
+      this.loadingNewScores = false;
+      this.newScoresCount = 0;
+    },
     async getEventsHistory(): Promise<EventHistory[]> {
       const events: EventHistory[] = [];
       const eventsSnap = await this.$fire.firestore
