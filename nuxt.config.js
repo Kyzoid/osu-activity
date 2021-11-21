@@ -8,18 +8,18 @@ export default {
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'activity',
+    title: 'osu!activity',
     htmlAttrs: {
       lang: 'en'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'description', content: 'All we care about is PP. Displays all PP plays from a bunch of french mania players.' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', sizes: '32x32', href: '/icons/favicon-32x32.png' },
+      { rel: 'icon', sizes: '16x16', href: '/icons/favicon-16x16.png' }
     ]
   },
 
