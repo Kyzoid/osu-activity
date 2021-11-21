@@ -18,14 +18,11 @@
       </div>
     </div>
     <div class="flex items-center">
-      <div
-        :class="`grid grid-cols-${
-          play.mods.length ? play.mods.length : '1'
-        } gap-1 ml-2`"
-      >
+      <div class="flex items-center">
         <img
           v-for="name in play.mods"
           :key="name"
+          class="ml-1"
           :src="`/icons/mods/${name}.png`"
           width="30.94"
         />
