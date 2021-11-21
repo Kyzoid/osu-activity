@@ -1,0 +1,69 @@
+:root {
+  --base-hue: 333;
+  --hsl-p: var(--base-hue),100%,50%;
+
+  --hsl-h1: var(--base-hue),100%,70%;
+  --hsl-h2: var(--base-hue),50%,45%;
+
+  --hsl-c1: var(--base-hue),40%,100%;
+  --hsl-c2: var(--base-hue),40%,90%;
+
+  --hsl-l1: var(--base-hue),40%,80%;
+  --hsl-l2: var(--base-hue),40%,75%;
+  --hsl-l3: var(--base-hue),40%,70%;
+  --hsl-l4: var(--base-hue),40%,50%;
+
+  --hsl-d1: var(--base-hue),20%,35%;
+  --hsl-d2: var(--base-hue),20%,30%;
+  --hsl-d3: var(--base-hue),20%,25%;
+  --hsl-d4: var(--base-hue),20%,20%;
+  --hsl-d5: var(--base-hue),20%,15%;
+  --hsl-d6: var(--base-hue),20%,10%;
+
+  --hsl-f1: var(--base-hue),10%,60%;
+
+  --hsl-b1: var(--base-hue),10%,40%;
+  --hsl-b2: var(--base-hue),10%,30%;
+  --hsl-b3: var(--base-hue),10%,25%;
+  --hsl-b4: var(--base-hue),10%,20%;
+  --hsl-b5: var(--base-hue),10%,15%;
+  --hsl-b6: var(--base-hue),10%,10%;
+}
+
+@font-face {
+  font-family: 'Torus';
+  src: url('fonts/Torus-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Torus';
+  src: url('fonts/Torus-SemiBold.otf');
+  font-weight: 600;
+  font-style: normal;
+}
+
+html, body {
+  font-family: 'Torus';
+  color: white;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: hsl(var(--hsl-b6));
+}
+
+#__nuxt, #__layout {
+  height: 100%;
+}
+
+.body a, footer a {
+  color: hsl(var(--hsl-l2));
+  transition: color 80ms linear;
+}
+
+.body a:hover, footer a:hover {
+  color: hsl(var(--hsl-l1));
+  transition: color 80ms linear;
+  text-decoration: underline;
+}
