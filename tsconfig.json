@@ -36,9 +36,5 @@
     "node_modules",
     ".nuxt",
     "dist"
-  ],
-  "include": [
-    "**/*.ts",
-    "**/*.vue",
   ]
 }

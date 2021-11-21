@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default {
+  target: 'static',
   server: {
     port: 4000
   },
@@ -36,31 +37,28 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     '@nuxtjs/dotenv',
-    [
-      '@nuxtjs/firebase',
-      {
-        config: {
-          apiKey: process.env.API_KEY,
-          authDomain: process.env.AUTH_DOMAIN,
-          databaseURL: process.env.DATABASE_URL,
-          projectId: process.env.PROJECT_ID,
-          storageBucket: process.env.STORAGE_BUCKET,
-          messagingSenderId: process.env.MESSAGING_SENDER_ID,
-          appId: process.env.APP_ID,
-          measurementId: process.env.MEASUREMENT_ID,
-        },
-        services: {
-          firestore: true,
-          database: true,
-        }
-      }
-    ]
+    '@nuxtjs/firebase',
   ],
+
+  firebase: {
+    config: {
+      apiKey: process.env.API_KEY,
+      authDomain: process.env.AUTH_DOMAIN,
+      databaseURL: process.env.DATABASE_URL,
+      projectId: process.env.PROJECT_ID,
+      storageBucket: process.env.STORAGE_BUCKET,
+      messagingSenderId: process.env.MESSAGING_SENDER_ID,
+      appId: process.env.APP_ID,
+      measurementId: process.env.MEASUREMENT_ID,
+    },
+    services: {
+      firestore: true,
+      database: true,
+    },
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -76,5 +74,25 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  hooks: {
+    generate: {
+      async done(builder) {
+        const appModule = await import('./.nuxt/firebase/app.js')
+        const { session } = await appModule.default(
+          builder.options.firebase.config,
+          {
+            res: null,
+          }
+        )
+        try {
+          session.database().goOffline()
+        } catch (e) { }
+        try {
+          session.firestore().terminate()
+        } catch (e) { }
+      },
+    },
+  },
 }
