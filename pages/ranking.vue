@@ -6,7 +6,10 @@
         <div class="rankings">
           <div class="flex items-center">
             <img src="/icons/rankings.svg" width="30" />
-            <span class="ml-4">ranking</span>
+            <div class="ml-4 flex flex-col">
+              <span>ranking</span>
+              <span class="text-xs">list of players being actively spied on</span>
+            </div>
           </div>
         </div>
         <div class="users">

@@ -8,7 +8,10 @@
         <div class="title">
           <div class="flex items-center">
             <img src="/icons/home.svg" width="30" />
-            <span class="ml-4">home</span>
+            <div class="ml-4 flex flex-col">
+              <span>home</span>
+              <span class="text-xs">latest best performance from the top 50 mania French players</span>
+            </div>
           </div>
         </div>
         <div class="events relative">
