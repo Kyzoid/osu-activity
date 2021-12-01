@@ -57,6 +57,11 @@ export default {
     services: {
       firestore: true,
       database: true,
+      auth: {
+        initialize: {
+          onAuthStateChangedAction: 'onAuthStateChanged',
+        },
+      }
     },
   },
 

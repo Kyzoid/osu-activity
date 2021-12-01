@@ -125,6 +125,7 @@ export default Vue.extend({
     },
   },
   async created() {
+    await this.signInUser();
     this.eventsHistory = await this.getEventsHistory();
     this.loading = false;
     
@@ -144,6 +145,13 @@ export default Vue.extend({
     });
   },
   methods: {
+    async signInUser() {
+      try {
+        await this.$fire.auth.signInAnonymously();
+      } catch (e) {
+        alert(e)
+      }
+    },
     async refreshEventsHistory() {
       this.loadingNewScores = true;
       this.eventsHistory = await this.getEventsHistory();
