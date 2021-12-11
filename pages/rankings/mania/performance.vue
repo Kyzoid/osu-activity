@@ -56,7 +56,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
-import { User } from '../types';
+import { User } from '../../../types';
 
 export default Vue.extend({
   data() {

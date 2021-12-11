@@ -7,7 +7,8 @@
       </NuxtLink>
       <div class="text-sm ml-4">
         <NuxtLink to="/" class="p-2 hover:underline">home</NuxtLink>
-        <NuxtLink to="/ranking" class="p-2 hover:underline">ranking</NuxtLink>
+        <NuxtLink to="/rankings/mania/performance" class="p-2 hover:underline">ranking</NuxtLink>
+        <NuxtLink to="/rankings/mania/country-first-places" class="p-2 hover:underline">first places</NuxtLink>
       </div>
     </div>
   </header>

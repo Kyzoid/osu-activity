@@ -7,6 +7,7 @@ export default interface User {
   globalRank: number;
   pp: number;
   scores: Score[];
+  countryFirstPlaces?: number[];
   isRanked: boolean;
   isActive: boolean;
 }
