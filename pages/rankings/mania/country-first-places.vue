@@ -13,12 +13,12 @@
           </div>
         </div>
         <div class="users">
-          <table class="w-full text-sm">
+          <table class="w-full text-xs">
             <thead>
               <tr>
                 <th></th>
                 <th></th>
-                <th>Global Rank</th>
+                <th>Country Rank</th>
                 <th>Accuracy</th>
                 <th>Play Count</th>
                 <th>Performance</th>
@@ -33,7 +33,7 @@
                   <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
                 </td>
                 <td class="text-center">
-                  #{{ user.globalRank }}
+                  {{ user.countryRank ? `#${user.countryRank}` : '-' }}
                 </td>
                 <td class="text-center">
                   {{ user.accuracy.toFixed(2) }}%
@@ -42,15 +42,14 @@
                   {{ user.playCount }}
                 </td>
                 <td class="text-center">
-                  {{ user.pp }}
+                  {{ user.pp ? Math.round(user.pp) : '-' }}
                 </td>
                 <td class="text-center rounded-r text-white">
-                  {{ user.countryFirstPlaces.length }}
+                  {{ user.countryFirstPlacesCount }}
                 </td>
               </tr>
             </tbody>
           </table>
-          <!-- <small class="text-xs">Note: numbers in parenthesis indicate the gain/loss in one month</small> -->
         </div>
       </div>
     </div>
@@ -77,7 +76,7 @@ export default Vue.extend({
   methods: {
     async getUsers(): Promise<User[]> {
       const users: User[] = [];
-      const usersSnap = await this.$fire.firestore.collection('users').get();
+      const usersSnap = await this.$fire.firestore.collection('users').orderBy('countryFirstPlacesCount', 'desc').limit(50).get();
 
       if (!usersSnap.empty) {
         usersSnap.forEach((doc: QueryDocumentSnapshot) => {
@@ -92,7 +91,7 @@ export default Vue.extend({
         return cfpB - cfpA;
       });
 
-      return users;
+      return users.filter(u => u.countryFirstPlaces?.length ? 1 : 0);
     }
   }
 })

@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="users">
-          <table class="w-full text-sm">
+          <table class="w-full text-xs">
             <thead>
               <tr>
                 <th></th>
@@ -39,7 +39,7 @@
                   <!-- <span class="stat-up">(+121)</span> -->
                 </td>
                 <td class="text-center rounded-r text-white">
-                  {{ user.pp }}
+                  {{ Math.round(user.pp) }}
                   <!-- <span class="stat-up">(+14.22)</span> -->
                 </td>
               </tr>
@@ -72,7 +72,7 @@ export default Vue.extend({
   methods: {
     async getUsers(): Promise<User[]> {
       const users: User[] = [];
-      const usersSnap = await this.$fire.firestore.collection('users').orderBy('pp', 'desc').limit(50).get();
+      const usersSnap = await this.$fire.firestore.collection('users').orderBy('countryRank', 'asc').limit(50).get();
 
       if (!usersSnap.empty) {
         usersSnap.forEach((doc: QueryDocumentSnapshot) => {
