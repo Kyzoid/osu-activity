@@ -1,5 +1,7 @@
 import Score from './Score';
 
+export type UserKeysType = '4K' | '7K' | 'XK';
+
 export default interface User {
   id: number;
   username: string;
@@ -9,7 +11,8 @@ export default interface User {
   pp: number;
   scores: Score[];
   countryFirstPlaces?: number[];
-  countryFirstPlacesCount?: number;
+  countryFirstPlacesCount?: { [keys in UserKeysType]: number };
   isRanked: boolean;
   isActive: boolean;
+  playCount: number;
 }

@@ -3,6 +3,7 @@ export default interface EventHistory {
   username: string;
   createdAt: string;
   type: string;
+  avatarURL: string;
 
   mods?: string[];
   lastRank?: number;

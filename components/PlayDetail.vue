@@ -1,6 +1,6 @@
 <template>
   <div class="play-detail">
-    <div class="flex items-center pl-5 py-1">
+    <div v-if="play" class="flex items-center pl-5 py-1">
       <img :src="`/icons/grades/${play.rank}.svg`" width="40" />
       <div class="ml-2 flex flex-col">
         <a
@@ -38,7 +38,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
-interface PlayType {
+type PlayType = {
   accuracy: number;
   artist: string;
   beatmapDifficulty: string;
@@ -56,8 +56,8 @@ interface PlayType {
 export default Vue.extend({
   props: {
     play: {
-      type: Object as () => PlayType,
-      default: () => {},
+      type: {} as Vue.PropType<PlayType>,
+      default: null,
     },
   },
 });
