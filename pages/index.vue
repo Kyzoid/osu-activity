@@ -1,67 +1,71 @@
 <template>
   <div class="min-h-full relative">
     <Header />
-    <div class="body container mx-auto w-3/5 pb-14">
+    <div class="body container mx-auto lg:w-3/5 pb-14">
       <div class="shadow">
         <div class="rankings">
           <div class="flex items-center">
             <img src="/icons/rankings.svg" width="30" />
             <div class="ml-4 flex flex-col">
-              <span>French First Places Ranking</span>
-              <span class="text-xs">number of first places on the French ranking</span>
+              <span>Classement par premières places françaises</span>
+              <span class="text-xs">nombre de premières places sur le classement français</span>
             </div>
           </div>
         </div>
         <div class="users">
-          <table class="w-full text-xs">
-            <thead>
-              <tr>
-                <th></th>
-                <th width="50%"></th>
-                <th>Country Rank</th>
-                <th>Accuracy</th>
-                <!-- <th>Play Count</th> -->
-                <!-- <th>Performance</th> -->
-                <th class="text-white">First Places (FP)</th>
-                <th>4K FP</th>
-                <th>7K FP</th>
-                <th>XK FP</th>
-              </tr>
-            </thead>
-            <tbody v-if="!loading">
-              <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
-                <td class="text-center rounded-l text-white">#{{ index + 1 }}</td>
-                <td class="username flex items-center justify-start">
-                  <img src="/icons/flag_fr.svg" width="26.66" class="mr-2" />
-                  <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
-                </td>
-                <td class="text-center">
-                  {{ user.countryRank ? `#${user.countryRank}` : '-' }}
-                </td>
-                <td class="text-center">
-                  {{ user.accuracy.toFixed(2) }}%
-                </td>
-                <!-- <td class="text-center">
-                  {{ user.playCount }}
-                </td> -->
-                <!-- <td class="text-center">
-                  {{ user.pp ? Math.round(user.pp) : '-' }}
-                </td> -->
-                <td class="text-center rounded-r text-white">
-                  {{ user.countryFirstPlacesTotal ? user.countryFirstPlacesTotal : '0' }}
-                </td>
-                <td class="text-center">
-                  {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['4K'] : '0' }}
-                </td>
-                <td class="text-center">
-                  {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['7K'] : '0' }}
-                </td>
-                <td class="text-center">
-                  {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['XK'] : '0' }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-wrapper">
+            <table class="w-full text-xs">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="w-52 md:w-1/3 lg:w-1/2"></th>
+                  <th class="px-2">Rang FR</th>
+                  <th class="px-2">Précision</th>
+                  <!-- <th>Play Count</th> -->
+                  <!-- <th>Performance</th> -->
+                  <th class="px-2 text-white">Premières <br>places</th>
+                  <th class="px-2">Premières <br>places 4K</th>
+                  <th class="px-2">Premières <br>places 7K</th>
+                  <th class="px-2">Premières <br>places XK</th>
+                </tr>
+              </thead>
+              <tbody v-if="!loading">
+                <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
+                  <td class="px-3 text-center rounded-l text-white">#{{ index + 1 }}</td>
+                  <td title="France" class="w-52 md:w-full username flex items-center justify-start">
+                    <div class="flag-filter mr-2">
+                      <!-- <img src="/icons/flag_fr.svg" width="26.66" /> -->
+                    </div>
+                    <a class="width-full" target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
+                  </td>
+                  <td class="text-center">
+                    {{ user.countryRank ? `#${user.countryRank}` : '-' }}
+                  </td>
+                  <td class="text-center">
+                    {{ user.accuracy.toFixed(2) }}%
+                  </td>
+                  <!-- <td class="text-center">
+                    {{ user.playCount }}
+                  </td> -->
+                  <!-- <td class="text-center">
+                    {{ user.pp ? Math.round(user.pp) : '-' }}
+                  </td> -->
+                  <td class="text-center text-white">
+                    {{ user.countryFirstPlacesTotal ? user.countryFirstPlacesTotal : '0' }}
+                  </td>
+                  <td class="text-center">
+                    {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['4K'] : '0' }}
+                  </td>
+                  <td class="text-center">
+                    {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['7K'] : '0' }}
+                  </td>
+                  <td class="text-center rounded-r">
+                    {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['XK'] : '0' }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +118,29 @@ small {
   color: hsl(var(--hsl-f1));
 }
 
+.flag-filter {
+  position: relative;
+  height: 20px;
+  width: calc(20px*1.3333);
+  background-image: url('/icons/flag_fr.svg');
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+
+  &:after {
+    content: "";
+    position: absolute;
+    filter: contrast(0) brightness(2);
+    opacity: .25;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border-radius: 3px;
+  }
+}
+
 .stat-up {
   @apply text-green-400;
 }
@@ -133,22 +160,28 @@ small {
   background-image: url(/icons/page-extra-footer.png);
 }
 
-.users > table {
+.users > .table-wrapper > table {
   border-collapse: separate;
   border-spacing: 0px 3px;
   color: hsl(var(--hsl-f1));
 }
 
-.users > table > thead > tr > th {
+@media (max-width: 810px) {
+  .users > .table-wrapper {
+    overflow-x: scroll;
+  }
+}
+
+.users > .table-wrapper > table > thead > tr > th {
   @apply font-normal;
 }
 
-.users > table > tbody > tr {
+.users > .table-wrapper > table > tbody > tr {
   @apply px-3 rounded-sm;
   background-color: hsl(var(--hsl-b4));
 }
 
-.users > table > tbody > tr:hover {
+.users > .table-wrapper > table > tbody > tr:hover {
   background-color: hsl(var(--hsl-b3));
 }
 
@@ -161,7 +194,7 @@ tr > td.username > a:hover {
   color: hsl(var(--hsl-l1));
 }
 
-.users > table > tbody > tr > td {
-  @apply py-0.5;
+.users > .table-wrapper > table > tbody > tr > td {
+  @apply py-1.5;
 }
 </style>

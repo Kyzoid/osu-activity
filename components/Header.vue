@@ -1,12 +1,12 @@
 <template>
   <header>
-    <div class="flex items-center container mx-auto w-3/5 h-full">
+    <div class="flex items-center container px-2 lg:px-0 mx-auto lg:w-3/5 h-full">
       <NuxtLink to="/" class="logo-container">
         <div class="logo logo-bg"></div>
         <div class="logo logo-white"></div>
       </NuxtLink>
       <div class="text-sm ml-4">
-        <NuxtLink to="/" class="p-2 hover:underline">home</NuxtLink>
+        <NuxtLink to="/" class="p-2 hover:underline">accueil</NuxtLink>
         <!-- <NuxtLink to="/rankings/mania/performance" class="p-2 hover:underline">ranking</NuxtLink>
         <NuxtLink to="/rankings/mania/latest-performances" class="p-2 hover:underline">latest performances</NuxtLink> -->
       </div>
@@ -41,7 +41,7 @@ export default Vue.extend({
 
 <style lang="postcss" scoped>
 header {
-  @apply h-12 mb-6 flex items-center;
+  @apply h-12 mb-4 flex items-center;
   background-color: hsl(var(--hsl-h2));
 }
 

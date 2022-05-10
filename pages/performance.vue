@@ -56,7 +56,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
-import { User } from '../../../types';
+import { User } from '../types';
 
 export default Vue.extend({
   data() {
@@ -65,7 +65,7 @@ export default Vue.extend({
       loading: true,
     }
   },
-  async created() {
+  async mounted() {
     this.users = await this.getUsers();
     this.loading = false;
   },

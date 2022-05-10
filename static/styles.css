@@ -1,5 +1,5 @@
 :root {
-  --base-hue: 333;
+  --base-hue: 115;
   --hsl-p: var(--base-hue),100%,50%;
 
   --hsl-h1: var(--base-hue),100%,70%;

@@ -88,7 +88,7 @@
 <script lang="ts">
 import { QueryDocumentSnapshot } from '@firebase/firestore';
 import Vue from 'vue';
-import PlayDetail from '../../../components/PlayDetail.vue';
+import PlayDetail from '../components/PlayDetail.vue';
 import { EventHistory, Job } from '~/types';
 
 export default Vue.extend({
