@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/rankings/mania/performance", {data:[{}],fetch:{},mutations:[]});
