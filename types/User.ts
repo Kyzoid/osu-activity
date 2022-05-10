@@ -12,6 +12,7 @@ export default interface User {
   scores: Score[];
   countryFirstPlaces?: number[];
   countryFirstPlacesCount?: { [keys in UserKeysType]: number };
+  countryFirstPlacesTotal?: number;
   isRanked: boolean;
   isActive: boolean;
   playCount: number;

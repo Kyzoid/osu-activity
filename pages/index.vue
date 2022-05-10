@@ -48,7 +48,7 @@
                   {{ user.pp ? Math.round(user.pp) : '-' }}
                 </td> -->
                 <td class="text-center rounded-r text-white">
-                  {{ user.countryFirstPlacesCount ? (user.countryFirstPlacesCount['4K']+user.countryFirstPlacesCount['7K']+user.countryFirstPlacesCount['XK']) : '0' }}
+                  {{ user.countryFirstPlacesTotal ? user.countryFirstPlacesTotal : '0' }}
                 </td>
                 <td class="text-center">
                   {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['4K'] : '0' }}
@@ -88,7 +88,7 @@ export default Vue.extend({
   methods: {
     async getUsers(): Promise<User[]> {
       const users: User[] = [];
-      const usersSnap = await this.$fire.firestore.collection('users').orderBy('countryFirstPlacesCount', 'desc').limit(50).get();
+      const usersSnap = await this.$fire.firestore.collection('users').orderBy('countryFirstPlacesTotal', 'desc').limit(50).get();
 
       if (!usersSnap.empty) {
         usersSnap.forEach((doc: QueryDocumentSnapshot) => {

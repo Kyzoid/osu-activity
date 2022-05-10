@@ -14,6 +14,31 @@
   </header>
 </template>
 
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
+  components: {},
+  data() {
+    return {};
+  },
+  computed: {
+  },
+  async created() {
+    await this.signInUser();
+  },
+  methods: {
+    async signInUser() {
+      try {
+        await this.$fire.auth.signInAnonymously();
+      } catch (e) {
+        console.log(e)
+      }
+    },
+  },
+});
+</script>
+
 <style lang="postcss" scoped>
 header {
   @apply h-12 mb-6 flex items-center;
