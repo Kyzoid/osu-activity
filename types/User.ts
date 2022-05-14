@@ -1,8 +1,15 @@
 import Score from './Score';
 
-export type UserKeysType = '4K' | '7K' | 'XK';
+export type UserKeys = '4K' | '7K' | 'XK';
 
-export default interface User {
+export type UserScores = '1000' | '999' | '998' | '997' | '996' | 'Lower';
+
+export type UserCountryFirstPlace = {
+  beatmapId: number;
+  keys: string;
+}
+
+type User = {
   id: number;
   username: string;
   accuracy: number;
@@ -10,10 +17,14 @@ export default interface User {
   countryRank?: number;
   pp: number;
   scores: Score[];
-  countryFirstPlaces?: number[];
-  countryFirstPlacesCount?: { [keys in UserKeysType]: number };
+  countryFirstPlaces?: UserCountryFirstPlace[];
+  countryFirstPlacesCount?: { [keys in UserKeys]: number };
   countryFirstPlacesTotal?: number;
+  countryFirstPlacesScoreCount?: { [keys in UserScores]: number };
+  countryFirstPlacesScoreAverage?: number;
   isRanked: boolean;
   isActive: boolean;
   playCount: number;
 }
+
+export default User;

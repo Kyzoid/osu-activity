@@ -1,56 +1,45 @@
 <template>
-  <div class="min-h-full relative">
-    <Header />
-    <div class="body container mx-auto w-3/5 pb-14">
-      <div class="shadow">
-        <div class="rankings">
-          <div class="flex items-center">
-            <img src="/icons/rankings.svg" width="30" />
-            <div class="ml-4 flex flex-col">
-              <span>ranking</span>
-              <span class="text-xs">list of players being actively spied on</span>
-            </div>
-          </div>
-        </div>
-        <div class="users">
-          <table class="w-full text-xs">
-            <thead>
-              <tr>
-                <th></th>
-                <th></th>
-                <th>Accuracy</th>
-                <th>Play Count</th>
-                <th class="text-white">Performance</th>
-              </tr>
-            </thead>
-            <tbody v-if="!loading">
-              <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
-                <td class="text-center rounded-l text-white">#{{ index + 1 }}</td>
-                <td class="username flex items-center justify-start">
-                  <img src="/icons/flag_fr.svg" width="26.66" class="mr-2" />
-                  <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
-                </td>
-                <td class="text-center">
-                  {{ user.accuracy.toFixed(2) }}%
-                  <!-- <span class="stat-down">(-0.03%)</span> -->
-                </td>
-                <td class="text-center">
-                  {{ user.playCount }}
-                  <!-- <span class="stat-up">(+121)</span> -->
-                </td>
-                <td class="text-center rounded-r text-white">
-                  {{ Math.round(user.pp) }}
-                  <!-- <span class="stat-up">(+14.22)</span> -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- <small class="text-xs">Note: numbers in parenthesis indicate the gain/loss in one month</small> -->
-        </div>
-      </div>
+  <AppLayout
+    icon-src="/icons/rankings.svg"
+    title="classement"
+    description="liste des joueurs observés"
+  >
+    <div class="users">
+      <table class="w-full text-xs">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>Accuracy</th>
+            <th>Play Count</th>
+            <th class="text-white">Performance</th>
+          </tr>
+        </thead>
+        <tbody v-if="!loading">
+          <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
+            <td class="text-center rounded-l text-white">#{{ index + 1 }}</td>
+            <td class="username flex items-center justify-start">
+              <img src="/icons/flag_fr.svg" width="26.66" class="mr-2" />
+              <a target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
+            </td>
+            <td class="text-center">
+              {{ user.accuracy.toFixed(2) }}%
+              <!-- <span class="stat-down">(-0.03%)</span> -->
+            </td>
+            <td class="text-center">
+              {{ user.playCount }}
+              <!-- <span class="stat-up">(+121)</span> -->
+            </td>
+            <td class="text-center rounded-r text-white">
+              {{ Math.round(user.pp) }}
+              <!-- <span class="stat-up">(+14.22)</span> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <small class="text-xs">Note: numbers in parenthesis indicate the gain/loss in one month</small> -->
     </div>
-    <Footer />
-  </div>
+  </AppLayout>
 </template>
 
 <script lang="ts">

@@ -1,4 +1,4 @@
-export default interface EventHistory {
+type EventHistory = {
   userId: number;
   username: string;
   createdAt: string;
@@ -18,3 +18,5 @@ export default interface EventHistory {
   pp?: number;
   rank?: string;
 }
+
+export default EventHistory;

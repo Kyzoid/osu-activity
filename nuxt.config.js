@@ -42,7 +42,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/firebase',
   ],
-
+  
   firebase: {
     config: {
       apiKey: process.env.API_KEY,
@@ -72,8 +72,8 @@ export default {
   ],
 
   dayjs: {
-    locales: ['en'],
-    defaultLocale: 'en',
+    locales: ['fr'],
+    defaultLocale: 'fr',
     plugins: ['relativeTime', 'utc']
   },
 

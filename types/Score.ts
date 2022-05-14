@@ -1,4 +1,4 @@
-export default interface Score {
+type Score = {
   id: number;
   accuracy: number;
   createdAt: string;
@@ -7,3 +7,5 @@ export default interface Score {
   score: number;
   user: string;
 }
+
+export default Score;

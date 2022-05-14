@@ -1,5 +1,5 @@
 <template>
-  <div class="play-detail">
+  <div class="play-detail leading-3">
     <div v-if="play" class="flex items-center pl-5 py-1">
       <img :src="`/icons/grades/${play.rank}.svg`" width="40" />
       <div class="ml-2 flex flex-col">
@@ -8,8 +8,8 @@
           :href="`https://osu.ppy.sh/beatmapsets/${play.beatmapsetId}#mania/${play.beatmapId}`"
           target="_blank"
         >
-          <span>{{ play.beatmapTitle }}</span>
-          <span class="text-xs">by {{ play.artist }}</span>
+          <span class="text-sm">{{ play.beatmapTitle }}</span>
+          <span class="text-xs">par {{ play.artist }}</span>
         </a>
         <div class="flex text-xs">
           <span class="mr-2 difficulty">{{ play.beatmapDifficulty }}</span>
@@ -27,9 +27,9 @@
           width="30.94"
         />
       </div>
-      <span class="accuracy font-semibold mx-4">{{ (play.accuracy * 100).toFixed(2) }}%</span>
+      <span class="accuracy font-semibold mx-4 text-sm">{{ (play.accuracy * 100).toFixed(2) }}%</span>
       <div class="play-detail--pp">
-        {{ Math.round(play.pp) }}<span style="color: hsl(var(--hsl-l3));">pp</span>
+        {{ Math.round(play.pp) }}<span class="text-xs" style="color: hsl(var(--hsl-l3));">pp</span>
       </div>
     </div>
   </div>
@@ -37,26 +37,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-
-type PlayType = {
-  accuracy: number;
-  artist: string;
-  beatmapDifficulty: string;
-  beatmapId: number;
-  beatmapTitle: string;
-  beatmapsetId: number;
-  createdAt: string;
-  mods: string[];
-  pp: number;
-  userId: number;
-  username: string;
-  rank: string;
-}
+import { Play } from '~/types';
 
 export default Vue.extend({
   props: {
     play: {
-      type: {} as Vue.PropType<PlayType>,
+      type: Object as Vue.PropType<Play>,
       default: null,
     },
   },
@@ -66,25 +52,25 @@ export default Vue.extend({
 <style lang="postcss" scoped>
 .play-detail {
   @apply rounded-lg flex justify-between;
-  background-color: hsl(var(--hsl-b3));
+  background-color: hsl(var(--hsl-b2));
 }
 
 .play-detail:hover {
-  background-color: hsl(var(--hsl-b2));
+  background-color: hsl(var(--hsl-b1));
 }
 
 .play-detail:hover .play-detail--pp {
-  background-color: hsl(var(--hsl-b3));
+  background-color: hsl(var(--hsl-b2));
 }
 
 .play-detail:hover .play-detail--pp:before {
-  background-color: hsl(var(--hsl-b2));
+  background-color: hsl(var(--hsl-b1));
 }
 
 .play-detail--pp {
   @apply text-base relative font-semibold flex items-center justify-center h-full w-28 rounded-r-lg;
   color: hsl(var(--hsl-h1));
-  background-color: hsl(var(--hsl-b4));
+  background-color: hsl(var(--hsl-b3));
 }
 
 .play-detail--pp:before {
@@ -95,7 +81,7 @@ export default Vue.extend({
   position: absolute;
   left: -1px;
   top: 0;
-  background-color: hsl(var(--hsl-b3));
+  background-color: hsl(var(--hsl-b2));
   -webkit-clip-path: polygon(0 0,100% 50%,0 100%);
   clip-path: polygon(0 0,100% 50%,0 100%);
 }

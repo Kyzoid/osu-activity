@@ -1,76 +1,63 @@
 <template>
-  <div class="min-h-full relative">
-    <Header />
-    <div class="body container mx-auto lg:w-3/5 pb-14">
-      <div class="shadow">
-        <div class="rankings">
-          <div class="flex items-center">
-            <img src="/icons/rankings.svg" width="30" />
-            <div class="ml-4 flex flex-col">
-              <span>Classement par premières places françaises</span>
-              <span class="text-xs">nombre de premières places sur le classement français</span>
-            </div>
-          </div>
-        </div>
-        <div class="users">
-          <div class="table-wrapper">
-            <table class="w-full text-xs">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th class="w-52 md:w-1/3 lg:w-1/2"></th>
-                  <th class="px-2">Rang FR</th>
-                  <th class="px-2">Précision</th>
-                  <!-- <th>Play Count</th> -->
-                  <!-- <th>Performance</th> -->
-                  <th class="px-2 text-white">Premières <br>places</th>
-                  <th class="px-2">Premières <br>places 4K</th>
-                  <th class="px-2">Premières <br>places 7K</th>
-                  <th class="px-2">Premières <br>places XK</th>
-                </tr>
-              </thead>
-              <tbody v-if="!loading">
-                <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
-                  <td class="px-3 text-center rounded-l text-white">#{{ index + 1 }}</td>
-                  <td title="France" class="w-52 md:w-full username flex items-center justify-start">
-                    <div class="flag-filter mr-2">
-                      <!-- <img src="/icons/flag_fr.svg" width="26.66" /> -->
-                    </div>
-                    <a class="width-full" target="_blank" :href="`https://osu.ppy.sh/u/${user.id}`">{{ user.username }}</a>
-                  </td>
-                  <td class="text-center">
-                    {{ user.countryRank ? `#${user.countryRank}` : '-' }}
-                  </td>
-                  <td class="text-center">
-                    {{ user.accuracy.toFixed(2) }}%
-                  </td>
-                  <!-- <td class="text-center">
-                    {{ user.playCount }}
-                  </td> -->
-                  <!-- <td class="text-center">
-                    {{ user.pp ? Math.round(user.pp) : '-' }}
-                  </td> -->
-                  <td class="text-center text-white">
-                    {{ user.countryFirstPlacesTotal ? user.countryFirstPlacesTotal : '0' }}
-                  </td>
-                  <td class="text-center">
-                    {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['4K'] : '0' }}
-                  </td>
-                  <td class="text-center">
-                    {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['7K'] : '0' }}
-                  </td>
-                  <td class="text-center rounded-r">
-                    {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['XK'] : '0' }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+  <AppLayout
+    icon-src="/icons/rankings.svg"
+    title="Classement par premières places françaises"
+    description="nombre de premières places sur le classement français"
+  >
+    <div class="users">
+      <div class="table-wrapper">
+        <table class="w-full text-xs">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="w-52 md:w-1/3 lg:w-1/2"></th>
+              <th class="px-2">Rang FR</th>
+              <th class="px-2">Précision</th>
+              <!-- <th>Play Count</th> -->
+              <!-- <th>Performance</th> -->
+              <th class="px-2 text-white">Premières <br>places</th>
+              <th class="px-2">Premières <br>places 4K</th>
+              <th class="px-2">Premières <br>places 7K</th>
+              <th class="px-2">Premières <br>places XK</th>
+            </tr>
+          </thead>
+          <tbody v-if="!loading">
+            <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
+              <td class="px-3 text-center rounded-l text-white">#{{ index + 1 }}</td>
+              <td title="France" class="w-52 md:w-full username flex items-center justify-start">
+                <div class="flag-filter mr-2"></div>
+                <NuxtLink :to="`/users/${user.id}`" class="hover:underline">{{ user.username }}</NuxtLink>
+              </td>
+              <td class="text-center">
+                {{ user.countryRank ? `#${user.countryRank}` : '-' }}
+              </td>
+              <td class="text-center">
+                {{ user.accuracy.toFixed(2) }}%
+              </td>
+              <!-- <td class="text-center">
+                {{ user.playCount }}
+              </td> -->
+              <!-- <td class="text-center">
+                {{ user.pp ? Math.round(user.pp) : '-' }}
+              </td> -->
+              <td class="text-center text-white">
+                {{ user.countryFirstPlacesTotal ? user.countryFirstPlacesTotal : '0' }}
+              </td>
+              <td class="text-center">
+                {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['4K'] : '0' }}
+              </td>
+              <td class="text-center">
+                {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['7K'] : '0' }}
+              </td>
+              <td class="text-center rounded-r">
+                {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['XK'] : '0' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <Footer />
-  </div>
+  </AppLayout>
 </template>
 
 <script lang="ts">
@@ -147,11 +134,6 @@ small {
 
 .stat-down {
   @apply text-red-400;
-}
-
-.rankings {
-  @apply px-10 py-3;
-  background-color: hsl(var(--hsl-d4));
 }
 
 .users {

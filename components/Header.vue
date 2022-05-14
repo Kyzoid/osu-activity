@@ -7,8 +7,8 @@
       </NuxtLink>
       <div class="text-sm ml-4">
         <NuxtLink to="/" class="p-2 hover:underline">accueil</NuxtLink>
-        <!-- <NuxtLink to="/rankings/mania/performance" class="p-2 hover:underline">ranking</NuxtLink>
-        <NuxtLink to="/rankings/mania/latest-performances" class="p-2 hover:underline">latest performances</NuxtLink> -->
+        <!-- <NuxtLink to="/rankings/mania/performance" class="p-2 hover:underline">ranking</NuxtLink> -->
+        <!-- <NuxtLink to="/rankings/mania/latest-performances" class="p-2 hover:underline">latest performances</NuxtLink> -->
       </div>
     </div>
   </header>
@@ -17,31 +17,12 @@
 <script lang="ts">
 import Vue from 'vue';
 
-export default Vue.extend({
-  components: {},
-  data() {
-    return {};
-  },
-  computed: {
-  },
-  async created() {
-    await this.signInUser();
-  },
-  methods: {
-    async signInUser() {
-      try {
-        await this.$fire.auth.signInAnonymously();
-      } catch (e) {
-        console.log(e)
-      }
-    },
-  },
-});
+export default Vue.extend({});
 </script>
 
 <style lang="postcss" scoped>
 header {
-  @apply h-12 mb-4 flex items-center;
+  @apply h-12 mb-4 flex items-center fixed top-0 left-0 z-50 w-full;
   background-color: hsl(var(--hsl-h2));
 }
 

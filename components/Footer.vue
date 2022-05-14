@@ -9,8 +9,9 @@
 
 <style lang="postcss" scoped>
 footer {
-  @apply flex items-center justify-center text-xs h-10 absolute bottom-0 w-full;
+  @apply flex items-center justify-center text-xs h-10 w-full;
   background-color: hsl(var(--hsl-b5));
   color: hsl(var(--hsl-f1));
+  transform: translateY(3rem);
 }
 </style>
