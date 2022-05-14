@@ -1,5 +1,5 @@
 :root {
-  --base-hue: 115;
+  --base-hue: 999;
   --hsl-p: var(--base-hue),100%,50%;
 
   --hsl-h1: var(--base-hue),100%,70%;
@@ -55,15 +55,4 @@ html, body {
 
 #__nuxt, #__layout {
   height: 100%;
-}
-
-.body a, footer a {
-  color: hsl(var(--hsl-l2));
-  transition: color 80ms linear;
-}
-
-.body a:hover, footer a:hover {
-  color: hsl(var(--hsl-l1));
-  transition: color 80ms linear;
-  text-decoration: underline;
 }
