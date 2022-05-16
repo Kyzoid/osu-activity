@@ -13,7 +13,12 @@
           </div>
         </div>
 
-        <slot />
+        <div v-if="loading" class="loader flex flex-col justify-center items-center">
+          <LoaderTaiko />
+          <span>Chargement...</span>
+        </div>
+
+        <slot v-else />
       </div>
     </main>
     <Footer />
@@ -38,6 +43,11 @@ export default Vue.extend({
       default: ''
     }
   },
+  computed: {
+    loading(): boolean {
+      return this.$store.state.loading;
+    }
+  },
   async created() {
     await this.signInUser();
   },
@@ -58,9 +68,9 @@ main {
   transform: translateY(3rem);
 
   &.body a, footer a {
-    color: hsl(var(--hsl-l2));
-    transition: color 80ms linear;
-  }
+  color: hsl(var(--hsl-l2));
+  transition: color 80ms linear;
+}
 
   &.body a:hover, footer a:hover {
     color: hsl(var(--hsl-l1));
@@ -72,5 +82,16 @@ main {
 .title {
   @apply px-10 py-3;
   background-color: hsl(var(--hsl-d4));
+}
+
+.loader {
+  @apply bg-no-repeat bg-contain bg-bottom;
+  min-height: 80vh;
+  background-color: hsl(var(--hsl-b5));
+  background-image: url('/icons/page-extra-footer.png');
+
+  & span {
+    margin-top: -1.05rem;
+  }
 }
 </style>

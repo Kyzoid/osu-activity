@@ -13,4 +13,8 @@ export default {
     }
     commit('SET_AUTH_USER', { authUser });
   },
+
+  loading({ commit }: any, loading: boolean) {
+    commit('SET_LOADING', loading);
+  },
 }

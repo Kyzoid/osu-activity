@@ -10,5 +10,9 @@ export default {
     state.authUser = {
       uid: authUser.uid
     }
+  },
+
+  SET_LOADING: (state: StateType, loading: boolean) => {
+    state.loading = loading;
   }
 }

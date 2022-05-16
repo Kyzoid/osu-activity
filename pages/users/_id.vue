@@ -4,11 +4,11 @@
     title="informations du joueur"
   >
     <div class="user">
-      <div class="profile-bg" :style="`background-image: url('${'https://assets.ppy.sh/user-profile-covers/4089441/57ade8cea7b216d6392d1fc0c8c1984a0d2c46874834ac4bfaaf8d9fc261932a.jpeg'}')`"></div>
+      <div class="profile-bg" :style="`background-image: url('${user.coverUrl}')`"></div>
       
-      <div class="user-info-wrapper shadow">
+      <div class="user-info-wrapper shadow z-20">
         <div class="user-info flex items-end px-6 lg:px-12 xl:px-16">
-          <div class="avatar shadow" :style="`background-image: url('${'https://a.ppy.sh/4089441?1638276425.jpeg'}');`"></div>
+          <div class="avatar shadow" :style="`background-image: url('${user.avatarUrl}');`"></div>
           <div class="ml-5 flex flex-col mb-3">
             <span class="text-2xl">{{ user.username }}</span>
             <div class="flex items-center">
@@ -19,17 +19,36 @@
         </div>
       </div>
 
+      <div v-if="user.cfpScoreAverageByKeys" class="py-4 px-9 z-10 shadow flex items-center" style="background-color: hsl(var(--hsl-b3));">
+        <div v-if="user.cfpScoreAverageByKeys['4K']" class="flex flex-col mr-6">
+          <span class="text-xs">Moyenne des scores 4K</span>
+          <span class="text-sm">{{ user.cfpScoreAverageByKeys['4K'].toFixed(0) }}</span>
+        </div>
+        <div v-if="user.cfpScoreAverageByKeys['7K']" class="flex flex-col mr-6">
+          <span class="text-xs">Moyenne des scores 7K</span>
+          <span class="text-sm">{{ user.cfpScoreAverageByKeys['7K'].toFixed(0) }}</span>
+        </div>
+        <div v-if="user.cfpScoreAverageByKeys['XK']" class="flex flex-col mr-6">
+          <span class="text-xs">Moyenne des scores XK</span>
+          <span class="text-sm">{{ user.cfpScoreAverageByKeys['XK'].toFixed(0) }}</span>
+        </div>
+        <div v-if="user.cfpScoreAverage && user.cfpScoreAverageByKeys['4K'] && user.cfpScoreAverageByKeys['7K'] && user.cfpScoreAverageByKeys['XK']" class="flex flex-col">
+          <span class="text-xs">Moyenne des scores</span>
+          <span class="text-sm">{{ user.cfpScoreAverage.toFixed(0) }}</span>
+        </div>
+      </div>
+
       <div class="user-profile-pages p-3 flex flex-col items-start">
         <div class="page flex flex-col items-start">
           <h2 class="page-h2 mb-6 font-bold">Classements</h2>
 
-          <h3 class="page-h3 font-bold py-2">Premières places françaises (4K) <span class="count-badge ml-2">{{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['4K'] : '0' }}</span></h3>
+          <h3 class="page-h3 font-bold py-2">Premières places françaises (4K) <span class="count-badge ml-2">{{ user.cfpCountByKeys ? user.cfpCountByKeys['4K'] : '0' }}</span></h3>
           <PlayDetailsList :plays="computedUserFirstPlaces['4K']" />
 
-          <h3 class="page-h3 font-bold py-2">Premières places françaises (7K) <span class="count-badge ml-2">{{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['7K'] : '0' }}</span></h3>
+          <h3 class="page-h3 font-bold py-2">Premières places françaises (7K) <span class="count-badge ml-2">{{ user.cfpCountByKeys ? user.cfpCountByKeys['7K'] : '0' }}</span></h3>
           <PlayDetailsList :plays="computedUserFirstPlaces['7K']" />
 
-          <h3 class="page-h3 font-bold py-2">Premières places françaises (XK) <span class="count-badge ml-2">{{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['XK'] : '0' }}</span></h3>
+          <h3 class="page-h3 font-bold py-2">Premières places françaises (XK) <span class="count-badge ml-2">{{ user.cfpCountByKeys ? user.cfpCountByKeys['XK'] : '0' }}</span></h3>
           <PlayDetailsList :plays="computedUserFirstPlaces['XK']" />
         </div>
       </div>
@@ -46,7 +65,6 @@ export default Vue.extend({
   data() {
     return {
       user: {} as User,
-      loading: true,
       mockPlay: {
         accuracy: 0.9623,
         artist: 'Basshunter',
@@ -66,15 +84,15 @@ export default Vue.extend({
   computed: {
     computedUserFirstPlaces(): { '4K': UserCountryFirstPlace[], '7K': UserCountryFirstPlace[], 'XK': UserCountryFirstPlace[] } {
       return {
-        '4K': this.user.countryFirstPlaces ? this.user.countryFirstPlaces.filter((cfp) => cfp.keys === '4K') : [],
-        '7K': this.user.countryFirstPlaces ? this.user.countryFirstPlaces.filter((cfp) => cfp.keys === '7K') : [],
-        'XK': this.user.countryFirstPlaces ? this.user.countryFirstPlaces.filter((cfp) => cfp.keys !== '4K' && cfp.keys !== '7K') : [],
+        '4K': this.user.cfp ? this.user.cfp.filter((cfp) => cfp.keys === '4K') : [],
+        '7K': this.user.cfp ? this.user.cfp.filter((cfp) => cfp.keys === '7K') : [],
+        'XK': this.user.cfp ? this.user.cfp.filter((cfp) => cfp.keys !== '4K' && cfp.keys !== '7K') : [],
       }
     }
   },
-  async created() {
+  async mounted() {
     this.user = await this.getUser();
-    this.loading = false;
+    this.$store.dispatch('loading', false);
   },
   methods: {
     async getUser(): Promise<User> {
@@ -117,6 +135,7 @@ export default Vue.extend({
 }
 
 .user-info {
+  @apply pb-2;
   transform: translateY(-3rem);
 }
 

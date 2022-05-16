@@ -4,7 +4,7 @@
     title="Classement par premières places françaises"
     description="nombre de premières places sur le classement français"
   >
-    <div class="users">
+    <div class="users px-10 py-5">
       <div class="table-wrapper">
         <table class="w-full text-xs">
           <thead>
@@ -21,7 +21,7 @@
               <th class="px-2">Premières <br>places XK</th>
             </tr>
           </thead>
-          <tbody v-if="!loading">
+          <tbody>
             <tr v-for="(user, index) in users" :key="user.id" :class="[user.isActive ? '' : 'opacity-50']">
               <td class="px-3 text-center rounded-l text-white">#{{ index + 1 }}</td>
               <td title="France" class="w-52 md:w-full username flex items-center justify-start">
@@ -41,16 +41,16 @@
                 {{ user.pp ? Math.round(user.pp) : '-' }}
               </td> -->
               <td class="text-center text-white">
-                {{ user.countryFirstPlacesTotal ? user.countryFirstPlacesTotal : '0' }}
+                {{ user.cfpCount ? user.cfpCount : '0' }}
               </td>
               <td class="text-center">
-                {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['4K'] : '0' }}
+                {{ user.cfpCountByKeys ? user.cfpCountByKeys['4K'] : '0' }}
               </td>
               <td class="text-center">
-                {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['7K'] : '0' }}
+                {{ user.cfpCountByKeys ? user.cfpCountByKeys['7K'] : '0' }}
               </td>
               <td class="text-center rounded-r">
-                {{ user.countryFirstPlacesCount ? user.countryFirstPlacesCount['XK'] : '0' }}
+                {{ user.cfpCountByKeys ? user.cfpCountByKeys['XK'] : '0' }}
               </td>
             </tr>
           </tbody>
@@ -69,18 +69,16 @@ export default Vue.extend({
   data() {
     return {
       users: [] as User[],
-      loading: true,
     }
   },
-  async created() {
+  async mounted() {
     this.users = await this.getUsers();
-    this.loading = false;
+    this.$store.dispatch('loading', false);
   },
   methods: {
     async getUsers(): Promise<User[]> {
       const users: User[] = [];
-      const usersSnap = await this.$fire.firestore.collection('users').orderBy('countryFirstPlacesTotal', 'desc').limit(50).get();
-
+      const usersSnap = await this.$fire.firestore.collection('users').orderBy('cfpCount', 'desc').limit(50).get();
       if (!usersSnap.empty) {
         usersSnap.forEach((doc: QueryDocumentSnapshot) => {
           const user = doc.data() as User;
@@ -88,13 +86,7 @@ export default Vue.extend({
         });
       }
 
-      users.sort((userA, userB) => {
-        const cfpA = userA.countryFirstPlaces?.length || 0;
-        const cfpB = userB.countryFirstPlaces?.length || 0;
-        return cfpB - cfpA;
-      });
-
-      return users.filter(u => u.countryFirstPlaces?.length ? 1 : 0);
+      return users;
     }
   }
 })
@@ -137,34 +129,38 @@ small {
 }
 
 .users {
-  @apply px-10 py-5 bg-no-repeat bg-contain bg-bottom;
+  @apply bg-no-repeat bg-contain bg-bottom;
   background-color: hsl(var(--hsl-b5));
-  background-image: url(/icons/page-extra-footer.png);
-}
+  background-image: url('/icons/page-extra-footer.png');
 
-.users > .table-wrapper > table {
-  border-collapse: separate;
-  border-spacing: 0px 3px;
-  color: hsl(var(--hsl-f1));
+  & > .table-wrapper > table > thead > tr > th {
+    @apply font-normal;
+  }
+
+  & > .table-wrapper > table > tbody > tr {
+    @apply px-3 rounded-sm;
+    background-color: hsl(var(--hsl-b4));
+  }
+
+  & > .table-wrapper > table > tbody > tr:hover {
+    background-color: hsl(var(--hsl-b3));
+  }
+
+  & > .table-wrapper > table > tbody > tr > td {
+    @apply py-1.5;
+  }
+
+  & > .table-wrapper > table {
+    border-collapse: separate;
+    border-spacing: 0px 3px;
+    color: hsl(var(--hsl-f1));
+  }
 }
 
 @media (max-width: 810px) {
   .users > .table-wrapper {
     overflow-x: scroll;
   }
-}
-
-.users > .table-wrapper > table > thead > tr > th {
-  @apply font-normal;
-}
-
-.users > .table-wrapper > table > tbody > tr {
-  @apply px-3 rounded-sm;
-  background-color: hsl(var(--hsl-b4));
-}
-
-.users > .table-wrapper > table > tbody > tr:hover {
-  background-color: hsl(var(--hsl-b3));
 }
 
 tr > td.username > a {
@@ -176,7 +172,4 @@ tr > td.username > a:hover {
   color: hsl(var(--hsl-l1));
 }
 
-.users > .table-wrapper > table > tbody > tr > td {
-  @apply py-1.5;
-}
 </style>

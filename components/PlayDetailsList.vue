@@ -1,9 +1,9 @@
 <template>
   <div v-if="plays.length" class="flex flex-col items-center justify-center w-full">
-    <div v-for="play of plays" :key="play.beatmapId" class="w-full">
+    <div v-for="play of plays.filter((_, i) => i<5)" :key="play.beatmapId" class="w-full">
       <PlayDetail class="my-0.5" :play="mockPlay" />
     </div>
-    <ShowMoreButton />
+    <ShowMoreButton v-if="plays.length > 5" />
   </div>
 </template>
 

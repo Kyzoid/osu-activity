@@ -6,6 +6,10 @@ export default {
   server: {
     port: 4000
   },
+  router: {
+    middleware: ['loading']
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'osu!activity',

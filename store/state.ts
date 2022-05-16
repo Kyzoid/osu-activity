@@ -1,5 +1,6 @@
 import { StateType } from './types';
 
 export default (): StateType => ({
-  authUser: null
-})
+  authUser: null,
+  loading: true,
+});

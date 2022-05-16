@@ -14,17 +14,25 @@ type User = {
   username: string;
   accuracy: number;
   globalRank: number;
-  countryRank?: number;
   pp: number;
   scores: Score[];
-  countryFirstPlaces?: UserCountryFirstPlace[];
-  countryFirstPlacesCount?: { [keys in UserKeys]: number };
-  countryFirstPlacesTotal?: number;
-  countryFirstPlacesScoreCount?: { [keys in UserScores]: number };
-  countryFirstPlacesScoreAverage?: number;
   isRanked: boolean;
   isActive: boolean;
   playCount: number;
+  coverUrl?: string;
+  avatarUrl?: string;
+  countryRank?: number;
+
+  // COUNTRY FIRST PLACE
+  cfp?: UserCountryFirstPlace[];
+
+  cfpCountByKeys?: { [key in UserKeys]: number };
+  cfpCountByKeysAndScores?: { [key in UserKeys]: { [score in UserScores]: number } };
+  cfpCountByScores?: { [score in UserScores]: number };
+  cfpCount?: number;
+
+  cfpScoreAverageByKeys?: { [key in UserKeys]: number };
+  cfpScoreAverage?: number;
 }
 
 export default User;

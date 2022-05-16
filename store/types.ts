@@ -4,4 +4,5 @@ export interface AuthUser {
 
 export interface StateType {
   authUser: AuthUser | null;
+  loading: boolean;
 }

@@ -4,7 +4,7 @@
     title="classement"
     description="liste des joueurs observés"
   >
-    <div class="users">
+    <div class="performance">
       <table class="w-full text-xs">
         <thead>
           <tr>
@@ -94,28 +94,28 @@ small {
   background-color: hsl(var(--hsl-d4));
 }
 
-.users {
+.performance {
   @apply px-10 py-5 bg-no-repeat bg-contain bg-bottom;
   background-color: hsl(var(--hsl-b5));
   background-image: url(/icons/page-extra-footer.png);
 }
 
-.users > table {
+.performance > table {
   border-collapse: separate;
   border-spacing: 0px 3px;
   color: hsl(var(--hsl-f1));
 }
 
-.users > table > thead > tr > th {
+.performance > table > thead > tr > th {
   @apply font-normal;
 }
 
-.users > table > tbody > tr {
+.performance > table > tbody > tr {
   @apply px-3 rounded-sm;
   background-color: hsl(var(--hsl-b4));
 }
 
-.users > table > tbody > tr:hover {
+.performance > table > tbody > tr:hover {
   background-color: hsl(var(--hsl-b3));
 }
 
@@ -128,7 +128,7 @@ tr > td.username > a:hover {
   color: hsl(var(--hsl-l1));
 }
 
-.users > table > tbody > tr > td {
+.performance > table > tbody > tr > td {
   @apply py-0.5;
 }
 </style>
