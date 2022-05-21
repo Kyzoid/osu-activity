@@ -46,6 +46,9 @@ export default Vue.extend({
       default: null,
     },
   },
+  created() {
+    console.log(this.play)
+  }
 });
 </script>
 

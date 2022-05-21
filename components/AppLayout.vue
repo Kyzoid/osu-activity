@@ -18,7 +18,11 @@
           <span>Chargement...</span>
         </div>
 
-        <slot v-else />
+        <Transition name="user">
+          <div v-if="!loading">
+            <slot />
+          </div>
+        </Transition>
       </div>
     </main>
     <Footer />
@@ -63,7 +67,22 @@ export default Vue.extend({
 })
 </script>
 
+<style>
+  .user-enter-active {
+    transition: opacity .5s;
+  }
+
+  .user-leave-active {
+    transition: opacity 0s;
+  }
+
+  .user-enter, .user-leave-active {
+    opacity: 0;
+  }
+</style>
+
 <style lang="postcss" scoped>
+
 main {
   transform: translateY(3rem);
 
